@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DemoRedux.Todo.Reducers;
+using DemoRedux.Todo.States;
+using Redux;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,9 +10,16 @@ namespace DemoRedux
 {
     public partial class App : Application
     {
+        public static Store<TodoState> TodosStore { get; private set; }
+
         public App()
         {
+#if DEBUG
+            LiveReload.Init();
+#endif
             InitializeComponent();
+
+            TodosStore = new Store<TodoState>(TodoReducer.Execute, TodoState.InitialState);
 
             MainPage = new MainPage();
         }
