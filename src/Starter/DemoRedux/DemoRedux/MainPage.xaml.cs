@@ -1,6 +1,4 @@
-﻿using DemoRedux.Todo.Actions;
-using DemoRedux.Todo.States;
-using System;
+﻿using System;
 using System.Linq;
 using Xamarin.Forms;
 using XLabs.Forms.Controls;
