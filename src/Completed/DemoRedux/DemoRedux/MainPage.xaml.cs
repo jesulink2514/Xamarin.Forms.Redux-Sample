@@ -1,5 +1,6 @@
 ﻿using DemoRedux.Todo.Actions;
 using DemoRedux.Todo.States;
+using Redux;
 using System;
 using System.Linq;
 using Xamarin.Forms;
@@ -9,11 +10,18 @@ namespace DemoRedux
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        private readonly IStore<TodoState> _store;
+
+        public MainPage():this(App.TodosStore)
         {
             InitializeComponent();
+        }
 
-            App.TodosStore.Subscribe(t =>
+        public MainPage(IStore<TodoState> store)
+        {
+            _store = store;
+
+            store.Subscribe(t =>
             {
                 TodoList.ItemsSource = t.Todos
                 .Where(x => t.ShowCompleted ? x.Completed : !x.Completed);
@@ -23,23 +31,23 @@ namespace DemoRedux
             });
         }
 
-        private void Toogle_ViewCompleted(object sender, EventArgs e)
+        public void Toogle_ViewCompleted(object sender, EventArgs e)
         {
-            App.TodosStore.Dispatch(new ToogleCompletedViewAction());
+            _store.Dispatch(new ToogleCompletedViewAction());
         }
 
-        private void NewTodo_Clicked(object sender, EventArgs e)
+        public void NewTodo_Clicked(object sender, EventArgs e)
         {
-            App.TodosStore.Dispatch(new NewTodoAction(TxtTodo.Text));
+            _store.Dispatch(new NewTodoAction(TxtTodo.Text));
             TxtTodo.Text = string.Empty;
         }
 
-        private void Todo_CheckedChanged(object sender, XLabs.EventArgs<bool> e)
+        public void Todo_CheckedChanged(object sender, XLabs.EventArgs<bool> e)
         {
             if (!(sender is CheckBox toogle)) return;
             if (!(toogle.BindingContext is TodoItem todoItem)) return;
 
-            App.TodosStore.Dispatch(new CompleteTodoAction(todoItem.Id));
+            _store.Dispatch(new CompleteTodoAction(todoItem.Id));
         }
     }
 }

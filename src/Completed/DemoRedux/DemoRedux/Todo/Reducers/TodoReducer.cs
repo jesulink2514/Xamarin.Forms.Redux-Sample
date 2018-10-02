@@ -9,16 +9,6 @@ namespace DemoRedux.Todo.Reducers
     {
         public static TodoState Execute(TodoState previousState, IAction action)
         {
-            if (action is ShowCompletedAction)
-            {
-                previousState.ShowCompleted = true;
-            }
-
-            if (action is ShowPendentAction)
-            {
-                previousState.ShowCompleted = false;
-            }
-
             if(action is ToogleCompletedViewAction)
             {
                 previousState.ShowCompleted=!previousState.ShowCompleted;
@@ -34,7 +24,8 @@ namespace DemoRedux.Todo.Reducers
             {
                 var todo = new TodoItem()
                 {
-                    Id = previousState.Todos.Max(x=>x.Id) + 1,
+                    Id = previousState.Todos.Select(i=>i.Id)
+                    .DefaultIfEmpty().Max() + 1,
                     Todo = newTodo.Todo
                 };
 

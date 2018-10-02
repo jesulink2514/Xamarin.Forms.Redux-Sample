@@ -30,12 +30,12 @@
 
         <StackLayout Orientation="Horizontal">
             <Entry Placeholder="Describe your to-do..." x:Name="TxtTodo"
-                   HorizontalOptions="FillAndExpand"/>
-            <Button Text="Add" Clicked="NewTodo_Clicked" Style="{StaticResource AddStyle}"/>
+                   HorizontalOptions="FillAndExpand" x:FieldModifier="Public"/>
+            <Button x:Name="AddButton" Text="Add" Clicked="NewTodo_Clicked" Style="{StaticResource AddStyle}" x:FieldModifier="Public"/>
         </StackLayout>
         
-        <ListView x:Name="TodoList" VerticalOptions="FillAndExpand"
-                  SelectionMode="None">
+        <ListView x:Name="TodoList" x:FieldModifier="Public"
+                  VerticalOptions="FillAndExpand" SelectionMode="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -50,7 +50,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <Button x:Name="BtnToogleCompleted" Text="Show completed to-do's" 
-                Style="{StaticResource CompletedStyle}"
+                Style="{StaticResource CompletedStyle}" x:FieldModifier="Public"
                 Clicked="Toogle_ViewCompleted"/>
 
     </StackLayout>
