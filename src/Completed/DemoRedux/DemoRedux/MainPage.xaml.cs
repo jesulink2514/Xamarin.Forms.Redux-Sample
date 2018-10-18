@@ -19,6 +19,8 @@ namespace DemoRedux
 
         public MainPage(IStore<TodoState> store)
         {
+            InitializeComponent();
+
             _store = store;
 
             store.Subscribe(t =>
