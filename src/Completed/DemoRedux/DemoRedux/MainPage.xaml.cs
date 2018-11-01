@@ -1,4 +1,5 @@
-﻿using DemoRedux.Todo.Actions;
+﻿using DemoRedux.Todo;
+using DemoRedux.Todo.Actions;
 using DemoRedux.Todo.States;
 using Redux;
 using System;
@@ -25,12 +26,19 @@ namespace DemoRedux
 
             store.Subscribe(t =>
             {
+                TodoList.IsRefreshing = t.IsLoading;
+
                 TodoList.ItemsSource = t.Todos
                 .Where(x => t.ShowCompleted ? x.Completed : !x.Completed);
 
                 BtnToogleCompleted.Text = t.ShowCompleted ? 
                 "Show pendent tasks" : "Show completed tasks";
             });
+        }
+
+        protected override async void OnAppearing()
+        {
+            await _store.DispatchAsync(ActionCreator.LoadTodosAsync());
         }
 
         public void Toogle_ViewCompleted(object sender, EventArgs e)

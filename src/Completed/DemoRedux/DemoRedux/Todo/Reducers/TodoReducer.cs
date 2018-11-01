@@ -32,6 +32,22 @@ namespace DemoRedux.Todo.Reducers
                 previousState.Todos.Add(todo);
             }
 
+            if(action is LoadTodosAction)
+            {
+                previousState.IsLoading = true;
+            }
+
+            if(action is LoadTodosErrorAction)
+            {
+                previousState.IsLoading = false;
+            }
+
+            if(action is LoadTodosSuccessAction success)
+            {
+                previousState.Todos = success.Todos.ToList();
+                previousState.IsLoading = false;
+            }
+
             return previousState;
         }
     }
