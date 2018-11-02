@@ -14,9 +14,6 @@ namespace DemoRedux
 
         public App()
         {
-#if DEBUG
-            LiveReload.Init();
-#endif
             InitializeComponent();
 
             TodosStore = new Store<TodoState>(TodoReducer.Execute, TodoState.InitialState);
